@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sherl.tmall.dao.UserMapper">
+    <resultMap type="com.sherl.tmall.entity.User" id="userMapper">
+        <id property="id" column="uid"/>
+        <result property="name" column="user_name"/>
+        <result property="password" column="user_pwd"/>
+    </resultMap>
+    
+    <select id="list" resultMap="userMapper">
+        SELECT * FROM t_user
+    </select>
+    
+    <select id="getById" resultMap="userMapper">
+        SELECT * FROM t_user WHERE uid = #{id}
+    </select>
+    
+    <select id="getByName" resultMap="userMapper">
+        SELECT * FROM t_user WHERE user_name LIKE '#{name}'
+    </select>
+    
+    <select id="getByNameAndPassword" resultMap="userMapper">
+        SELECT * FROM t_user WHERE user_name LIKE '#{name}' AND user_pwd LIKE '#{password}'
+    </select>
+    
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_user(user_name, user_pwd) VALUES (#{name}, #{password})
+    </insert>
+    
+    <update id="update">
+        UPDATE t_user SET user_name = #{name} WHERE uid = #{id}
+    </update>
+    
+    <delete id="delete">
+        DELETE FROM t_user WHERE uid = #{id}
+    </delete>
+    
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sherl.tmall.dao.OrderItemMapper">
+    <resultMap type="com.sherl.tmall.entity.OrderItem" id="orderItemMapper">
+        <id property="id" column="oiid"/>
+        <result property="number" column="number"/>
+        <result property="prices" column="prices"/>
+        <association property="order" column="oid" resultMap="com.sherl.tmall.dao.OrderMapper.orderMapper"></association>
+        <association property="product" column="pid" resultMap="com.sherl.tmall.dao.ProductMapper.productMapper"></association>
+    </resultMap>
+    
+    <select id="list" resultMap="orderItemMapper">
+        SELECT * FROM ((t_order_item oi JOIN t_product p ON oi.pid=p.pid)
+            JOIN t_order o ON oi.oid=o.oid AND oi.oid=#{oid})
+            JOIN t_order_status s ON o.sid = s.sid
+    </select>
+    
+    <select id="getById" resultMap="orderItemMapper">
+        SELECT * FROM (t_order_item oi JOIN t_product p ON oi.pid=p.pid)
+            JOIN t_order o ON oi.oid=o.oid AND oi.oiid=#{id}
+            JOIN t_order_status s ON o.sid = s.sid
+    </select>
+    
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_order_item(number, prices, oid, pid)
+        VALUES(#{number}, #{prices}, #{order.id}, #{product.id})
+    </insert>
+    
+    <update id="update">
+        UPDATE t_order_item SET number=#{number}, prices=#{prices}, oid=#{order.id}, pid=#{product.id}
+        WHERE oiid = #{id}
+    </update>
+    
+    <delete id="delete">
+        DELETE FROM t_order_item WHERE oiid = #{id}
+    </delete>
+    
+</mapper>

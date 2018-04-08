@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sherl.tmall.dao.PropertyMapper">
+    <resultMap type="com.sherl.tmall.entity.Property" id="propertyMapper">
+        <id property="id" column="ppid"/>
+        <result property="name" column="ppname"/>
+        <association property="category" column="cid" resultMap="com.sherl.tmall.dao.CategoryMapper.categoryMapper">
+        </association>
+    </resultMap>
+    
+    <!-- <select id="list" resultMap="propertyMapper">
+        SELECT pp.ppid, pp.ppname, c.cid,c.cname
+        FROM t_property pp, t_category c 
+        where c.cid = #{cid}
+    </select> -->
+    
+    <select id="list" resultMap="propertyMapper">
+        SELECT * FROM t_property pp JOIN t_category c ON c.cid = pp.cid AND pp.cid = #{cid}
+    </select>
+    
+    <select id="getById" resultMap="propertyMapper">
+        SELECT * FROM t_property pp JOIN t_category c 
+        ON c.cid = pp.cid AND pp.ppid = #{id}
+    </select>
+    
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_property(ppname, cid) VALUES (#{name}, #{category.id})
+    </insert>
+    
+    <update id="update">
+        UPDATE t_property SET ppname = #{name} WHERE ppid = #{id}
+    </update>
+    
+    <delete id="delete">
+        DELETE FROM t_property WHERE ppid = #{id} 
+    </delete>
+    
+</mapper>

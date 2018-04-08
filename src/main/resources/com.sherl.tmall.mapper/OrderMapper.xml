@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sherl.tmall.dao.OrderMapper">
+    <resultMap type="com.sherl.tmall.entity.Order" id="orderMapper">
+        <id property="id" column="oid"/>
+        <result property="orderCode" column="ordCode"/>
+        <result property="address" column="address"/>
+        <result property="post" column="post"/>
+        <result property="receiver" column="receiver"/>
+        <result property="mobile" column="telnumber"/>
+        <result property="userMessage" column="userMessage"/>
+        <result property="createDate" column="createDate"/>
+        <result property="payDate" column="payDate"/>
+        <result property="deliveryDate" column="deliveryDate"/>
+        <result property="confirmDate" column="confirmDate"/>
+        <result property="reviewDate" column="reviewDate"/>
+        <association property="status" column="sid" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="com.sherl.tmall.entity.Status">
+            <result property="id" column="sid"/>
+            <result property="value" column="status"/>
+        </association>
+        <association property="user" column="uid" resultMap="com.sherl.tmall.dao.UserMapper.userMapper"></association>
+    </resultMap>
+    
+    <select id="list" resultMap="orderMapper">
+        SELECT * FROM t_order o JOIN t_order_status s
+        ON o.sid = s.sid
+    </select>
+    
+    <select id="getById" resultMap="orderMapper">
+        SELECT * FROM t_order o JOIN t_order_status s 
+        ON o.sid = s.sid AND o.oid = #{id}
+    </select>
+    
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_order(ordCode, address, post, receiver, telnumber, userMessage, createDate, reviewDate, sid, uid)
+        VALUES (#{orderCode}, #{address}, #{post}, #{receiver}, #{mobile}, #{userMessage},
+             #{createDate}, #{reviewDate}, #{status.id}, #{user.id})
+    </insert>
+    
+    <update id="update">
+        UPDATE t_order SET ordCode=#{orderCode}, address=#{address}, post=#{post}, receiver=#{receiver}, 
+            telnumber=#{mobile}, userMessage=#{userMessage}, createDate=#{createDate}, payDate=#{payDate}, 
+            deliveryDate=#{deliveryDate}, confirmDate=#{confirmDate}, reviewDate=#{reviewDate},
+            sid=#{status.id}, uid=#{user.id}
+        WHERE oid = #{id}
+    </update>
+    
+    <update id="updateStatus">
+        UPDATE t_order SET payDate=#{payDate}, deliveryDate=#{deliveryDate}, confirmDate=#{confirmDate},
+             reviewDate=#{reviewDate}, sid=#{status.id}
+        WHERE oid = #{id}
+    </update>
+    
+    <delete id="delete">
+        DELETE FROM t_order WHERE oid = #{id}
+    </delete>
+    
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sherl.tmall.dao.CategoryMapper">
+
+    <resultMap type="Category" id="categoryMapper">
+        <id property="id" column="cid"/>
+        <result property="name" column="cname"/>
+    </resultMap>
+    
+    <select id="getById" resultMap="categoryMapper">
+        SELECT * FROM t_category WHERE cid = #{id}
+    </select>
+    
+    <select id="list" resultMap="categoryMapper">
+        SELECT * FROM t_category
+    </select>
+    
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_category(cname) VALUES (#{name})
+    </insert>
+    
+    <update id="update">
+        UPDATE t_category SET cname = #{name} WHERE cid = #{id}
+    </update>
+    
+    <delete id="delete">
+        DELETE FROM t_category WHERE cid = #{id}
+    </delete>
+    
+</mapper>

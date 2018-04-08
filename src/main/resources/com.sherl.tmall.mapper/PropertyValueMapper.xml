@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sherl.tmall.dao.PropertyValueMapper">
+    <resultMap type="com.sherl.tmall.entity.PropertyValue" id="propertyValueMapper">
+        <id property="id" column="ppvid"/>
+        <result property="value" column="ppvalue"/>
+        <association property="product" column="pid" resultMap="com.sherl.tmall.dao.ProductMapper.productMapper"></association>
+        <association property="property" column="ppid" resultMap="com.sherl.tmall.dao.PropertyMapper.propertyMapper"></association>
+    </resultMap>
+    
+    <select id="list" resultMap="propertyValueMapper">
+        SELECT * FROM (t_property_value ppv JOIN t_property pp ON ppv.ppid = pp.ppid) 
+        JOIN t_product p ON ppv.pid = p.pid AND ppv.pid = #{pid}
+    </select>
+    
+    <select id="getById" resultMap="propertyValueMapper">
+        SELECT * FROM (t_property_value ppv JOIN t_property pp ON ppv.ppid = pp.ppid) 
+        JOIN t_product p ON ppv.pid = p.pid AND ppv.ppvid = #{id}
+    </select>
+    
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_property_value(ppvalue, pid, ppid)
+        VALUES (#{value}, #{product.id}, #{property.id})
+    </insert>
+    
+    <update id="update">
+        UPDATE t_property_value SET ppvalue = #{value} WHERE ppvid = #{id}
+    </update>
+    
+    <delete id="delete">
+        DELETE FROM t_property_value WHERE ppvid = #{id}
+    </delete>
+    
+</mapper>

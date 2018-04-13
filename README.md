@@ -14,9 +14,9 @@
     ![login](README/login.png "login.png")  
 2. 详情界面  
     ![details](README/category.png "category.png")  
-3. 添加界面
+3. 添加界面  
     ![add](README/newCategory.png "newCategory.png") 
-4. 编辑界面
+4. 编辑界面  
     ![edit](README/editCategory.png "editCategory.png")
-5. 删除界面
+5. 删除界面  
     ![delete](README/deleteCategory.png "deleteCategory.png")

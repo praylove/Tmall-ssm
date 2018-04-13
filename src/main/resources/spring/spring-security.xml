@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <security:http pattern="/admin/login"  security="none"></security:http>
+    <security:http pattern="/admin/*Validate"  security="none"></security:http>
+
+    <security:http use-expressions="true" auto-config="true">
+        
+        <security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+            
+        <security:form-login login-page="/admin/login" default-target-url="/admin"  login-processing-url="/admin/formLogin.do"
+            username-parameter="name"  password-parameter="password"/>
+        <security:logout invalidate-session="true" logout-url="/admin/logout" logout-success-url="/admin/login"/>
+        <security:remember-me key="adminLogin" token-validity-seconds="1800" remember-me-parameter="remember-me"/>
+        <security:csrf disabled="true"/>
+    
+    </security:http>
+    
+    <security:authentication-manager>
+        <security:authentication-provider user-service-ref="adminDetailsService">
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+</beans>

@@ -21,7 +21,7 @@
                                 <img class="nav-user-photo" src="assets/images/avatars/user.jpg" alt="Jason's Photo">
                                 <span class="user-info">
                                     <small>欢迎,</small>
-                                    Jason
+                                    <span id="adminname"></span>
                                 </span>
 
                                 <i class="ace-icon fa fa-caret-down"></i>
@@ -35,7 +35,7 @@
                                 </li>
 
                                 <li>
-                                    <a href="profile.html">
+                                    <a href="#">
                                         <i class="ace-icon fa fa-user"></i> Profile
                                     </a>
                                 </li>
@@ -43,7 +43,7 @@
                                 <li class="divider"></li>
 
                                 <li>
-                                    <a href="#">
+                                    <a href="../admin/logout">
                                         <i class="ace-icon fa fa-power-off"></i> Logout
                                     </a>
                                 </li>

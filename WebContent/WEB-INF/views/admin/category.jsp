@@ -273,7 +273,7 @@
 //                                          data: {
 //                                              _method: 'DELETE'
 //                                          },
-                                            success:　function(){
+                                            success: function(){
                                                 getData();
                                             }
                                         });

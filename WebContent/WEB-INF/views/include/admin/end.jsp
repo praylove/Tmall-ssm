@@ -46,6 +46,16 @@
                 function editValidate() {
                     return $('#edit-form').validate(validateParam).form();
             }
+                
+           $(function(){
+        	   $.ajax({
+        		   url: "../admin/adminname",
+        		   type: 'GET',
+        		   success: function(data){
+        			   $('#adminname').text(data);
+        		   }
+        	   });
+           });
         </script>
     </body>
 

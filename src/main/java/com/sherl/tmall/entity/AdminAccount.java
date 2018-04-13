@@ -36,4 +36,9 @@ public class AdminAccount implements Serializable {
 	public void setRole(String role) {
 		this.role = role;
 	}
+
+	@Override
+	public String toString() {
+		return "AdminAccount [adminName=" + adminName + ", password=" + password + ", role=" + role + "]";
+	}
 }

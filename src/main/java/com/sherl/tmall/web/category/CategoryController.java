@@ -33,11 +33,6 @@ public class CategoryController {
 	// model.addAttribute("categoryForm", new CategoryForm());
 	// }
 
-	@RequestMapping(value = "/admin", method = RequestMethod.GET)
-	public String adminIndex() {
-		return "redirect:/admin/category";
-	}
-
 	@RequestMapping(value = "/admin/category", method = RequestMethod.GET)
 	public String categoryIndex() {
 		return "admin/category";

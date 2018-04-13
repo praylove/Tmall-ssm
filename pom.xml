@@ -56,6 +56,18 @@
 			<version>5.0.2.RELEASE</version>
 		</dependency>
 
+        <!-- spring security -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>5.0.2.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>5.0.2.RELEASE</version>
+        </dependency>
+
 		<!-- mybatis -->
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
 		<dependency>
@@ -133,7 +145,7 @@
 			<version>5.4.0</version>
 		</dependency>
 
-        <!-- SLF4J -->
+		<!-- SLF4J -->
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
 		<dependency>
 			<groupId>org.slf4j</groupId>

@@ -45,6 +45,7 @@
 .g-foot-mid,
 .g-mid {
 	display: block;
+	/* position: relative; */
 	min-width: 1100px;
 	width: 1100px;
 	margin: 0 auto;
@@ -124,6 +125,8 @@
 }
 
 .u-search-input {
+	position: absolute;
+	right: 20px;
 	width: 491px;
 	height: 32px;
 }
@@ -175,7 +178,7 @@
 
 .u-search-button {
 	position: relative;
-	top: 2px;
+	top: -2px;
 	height: 34px;
 }
 
@@ -235,7 +238,7 @@
 
 .m-foot1-guide {
 	height: 220px;
-	background: url(/tmall/image/site/cateye.png) no-repeat left bottom;
+	background: url(../../image/site/cateye.png) no-repeat left bottom;
 }
 
 .m-foot1-guide .div {
@@ -378,12 +381,11 @@
 
 .g-class-list {
 	position: absolute;
-	top: 40px;
+	top: 0px;
 }
 
 .m-class-list {
 	float: left;
-	position: absolute;
 	width: 150px;
 	padding: 0;
 	list-style-type: none;
@@ -395,21 +397,22 @@
 	height: 30px;
 }
 
-.m-class-list li a {
+.m-class-list li a, .m-class-items a{
 	display: block;
 	padding: 3px 0 0 30px;
 	color: black;
 }
 
-.m-class-list li:hover {
-	background-color: white;
+.m-class-list .s-white-bg {
+    background-color: white;
 }
 
 .m-class-items {
 	display: none;
 	position: absolute;
-	top: 0;
-	left: 150px;
+	top: 0px;
+	/* left: 300px; */
+	margin-left: 150px;
 	padding: 10px 50px;
 	height: 510px;
 	width: 900px;
@@ -479,6 +482,7 @@
 .u-type .items {
 	margin-left: 5px;
 	margin-right: 5px;
+	heigh: 220px;
 }
 
 
@@ -676,7 +680,7 @@
 	padding: 10px;
 	font-size: 12px;
 	color: #666666;
-	background-image: url(/tmall/image/site/priceBackground.png);
+	background-image: url(../../image/site/priceBackground.png);
 }
 
 .m-essential .price img {
@@ -713,6 +717,7 @@
 }
 
 .m-selected-cnt input {
+	text-align: center;
 	width: 43px;
 	height: 30px;
 }
@@ -1280,7 +1285,7 @@
 	position: relative;
 	height: 600px;
 	margin: 20px 0;
-	background-image: url(/tmall/image/site/loginBackground.png);
+	background-image: url(../../image/site/loginBackground.png);
 	background-repeat: no-repeat;
 }
 .m-login-input{
@@ -1430,4 +1435,12 @@
 	font-weight: bold;
 	background-color: #FF0036;
 	border-color: #FF0036;
+}
+
+/* ========== */
+/* = 错误信息 = */
+/* ========== */
+.m-error-class{
+	color: red;
+	font-size: 14px;
 }

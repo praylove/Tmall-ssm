@@ -12,6 +12,7 @@ public class OrderItem implements Serializable {
 	private int id;
 	private Product product;
 	private Order order;
+	private User user;
 	private int number;
 	private float prices;
 
@@ -59,6 +60,14 @@ public class OrderItem implements Serializable {
 	public String toString() {
 		return "OrderItem [id=" + id + ", product=" + product.getId() + ", order=" + order.getId() + ", number="
 				+ number + ", prices=" + prices + "]";
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

@@ -28,6 +28,10 @@ public class PropertyService {
 		return pageInfo;
 	}
 
+	public Property get(int id) {
+		return mapper.getById(id);
+	}
+
 	@Transactional
 	public void add(Property pp) {
 		mapper.add(pp);

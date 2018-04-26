@@ -23,13 +23,13 @@
     </resultMap>
     
     <select id="list" resultMap="orderMapper">
-        SELECT * FROM t_order o JOIN t_order_status s
-        ON o.sid = s.sid
+        SELECT * FROM (t_order o JOIN t_order_status s ON o.sid = s.sid)
+            JOIN t_user u ON o.uid = u.uid
     </select>
     
     <select id="getById" resultMap="orderMapper">
-        SELECT * FROM t_order o JOIN t_order_status s 
-        ON o.sid = s.sid AND o.oid = #{id}
+        SELECT * FROM (t_order o JOIN t_order_status s ON o.sid = s.sid AND o.oid = #{id})
+            JOIN t_user u ON o.uid = u.uid
     </select>
     
     <insert id="add" useGeneratedKeys="true" keyProperty="id">

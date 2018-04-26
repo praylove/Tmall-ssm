@@ -9,7 +9,12 @@
                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
      
     <mvc:default-servlet-handler/>
-    <mvc:annotation-driven />
+    <mvc:annotation-driven>
+        <!-- <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+            </bean>
+        </mvc:message-converters> -->
+    </mvc:annotation-driven>
     
     <context:component-scan base-package="com.sherl.tmall.web"></context:component-scan>
     

@@ -6,6 +6,7 @@
         <id property="id" column="oiid"/>
         <result property="number" column="number"/>
         <result property="prices" column="prices"/>
+        <association property="user" column="uid" resultMap="com.sherl.tmall.dao.UserMapper.userMapper"></association>
         <association property="order" column="oid" resultMap="com.sherl.tmall.dao.OrderMapper.orderMapper"></association>
         <association property="product" column="pid" resultMap="com.sherl.tmall.dao.ProductMapper.productMapper"></association>
     </resultMap>
@@ -22,13 +23,22 @@
             JOIN t_order_status s ON o.sid = s.sid
     </select>
     
+    <select id="carCount" resultType="int">
+        SELECT count(*) FROM t_order_item WHERE uid=#{uid} AND oid=0
+    </select>
+    
+    <select id="carList" resultMap="orderItemMapper">
+        SELECT * FROM (t_order_item oi JOIN t_product p ON oi.pid=p.pid)
+            WHERE uid=#{uid} AND oid=0
+    </select>
+    
     <insert id="add" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO t_order_item(number, prices, oid, pid)
-        VALUES(#{number}, #{prices}, #{order.id}, #{product.id})
+        INSERT INTO t_order_item(number, prices, oid, pid, uid)
+        VALUES(#{number}, #{prices}, #{order.id}, #{product.id}, #{user.id})
     </insert>
     
     <update id="update">
-        UPDATE t_order_item SET number=#{number}, prices=#{prices}, oid=#{order.id}, pid=#{product.id}
+        UPDATE t_order_item SET number=#{number}, oid=#{order.id}
         WHERE oiid = #{id}
     </update>
     

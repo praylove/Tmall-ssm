@@ -34,7 +34,8 @@
                             <th width="80px">促销价</th>
                             <th width="80px">库存</th>
                             <th width="120px">创建时间</th>
-                            <th width="94px"></th>
+                            <th width="80px">属性值管理</th>
+                            <th width="80px"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,26 +59,26 @@
             <label class="col-sm-3 control-label no-padding-right" for="name">名称： </label>
             <div class="col-sm-9">
                 <span class="block input-icon input-icon-right"> 
-                <input type="text" id="name" name="name" placeholder="名称" class="form-control" />
+                <input type="text" id="name" name="name" placeholder="名称" class="form-control" autocomplete="off" />
                 <i class="ace-icon fa fa-times-circle" style="display: none; color: red;"></i> 
                 <input type="hidden" name="_method" value="post" />
                 </span>
             </div>
             <label class="col-sm-3 control-label no-padding-right" for="subTitle">小标题： </label>
             <div class="col-sm-9">
-                <input type="text" id="subTitle" name="subTitle" placeholder="小标题" class="form-control" />
+                <input type="text" id="subTitle" name="subTitle" placeholder="小标题" class="form-control" autocomplete="off" />
             </div>
             <label class="col-sm-3 control-label no-padding-right" for="orignalPrice">原价格： </label>
             <div class="col-sm-9">
-                <input type="text" id="orignalPrice" name="orignalPrice" placeholder="原价格" class="form-control" />
+                <input type="text" id="orignalPrice" name="orignalPrice" placeholder="原价格" class="form-control" autocomplete="off"/>
             </div>
             <label class="col-sm-3 control-label no-padding-right" for="promotePrice">促销价： </label>
             <div class="col-sm-9">
-                <input type="text" id="promotePrice" name="promotePrice" placeholder="促销价" class="form-control" />
+                <input type="text" id="promotePrice" name="promotePrice" placeholder="促销价" class="form-control" autocomplete="off" />
             </div>
             <label class="col-sm-3 control-label no-padding-right" for="stock">库存： </label>
             <div class="col-sm-9">
-                <input type="text" id="stock" name="stock" placeholder="库存" class="form-control" />
+                <input type="text" id="stock" name="stock" placeholder="库存" class="form-control" autocomplete="off"/>
             </div>
         </div>
     </form>
@@ -99,26 +100,26 @@
             <label class="col-sm-3 control-label no-padding-right" for="name">名称： </label>
             <div class="col-sm-9">
                 <span class="block input-icon input-icon-right">
-                <input type="text" id="name" name="name" class="form-control" /> 
+                <input type="text" id="name" name="name" class="form-control"  autocomplete="off"/> 
                 <i class="ace-icon fa fa-times-circle" style="display: none; color: red;"></i>
                 <input type="hidden" name="_method" value="PUT" />
                 </span>
             </div>
             <label class="col-sm-3 control-label no-padding-right" for="subTitle">小标题： </label>
             <div class="col-sm-9">
-                <input type="text" id="subTitle" name="subTitle" placeholder="小标题" class="form-control" />
+                <input type="text" id="subTitle" name="subTitle" placeholder="小标题" class="form-control" autocomplete="off" />
             </div>
             <label class="col-sm-3 control-label no-padding-right" for="orignalPrice">原价格： </label>
             <div class="col-sm-9">
-                <input type="text" id="orignalPrice" name="orignalPrice" placeholder="原价格" class="form-control" />
+                <input type="text" id="orignalPrice" name="orignalPrice" placeholder="原价格" class="form-control" autocomplete="off"/>
             </div>
             <label class="col-sm-3 control-label no-padding-right" for="promotePrice">促销价： </label>
             <div class="col-sm-9">
-                <input type="text" id="promotePrice" name="promotePrice" placeholder="促销价" class="form-control" />
+                <input type="text" id="promotePrice" name="promotePrice" placeholder="促销价" class="form-control" autocomplete="off"/>
             </div>
             <label class="col-sm-3 control-label no-padding-right" for="stock">库存： </label>
             <div class="col-sm-9">
-                <input type="text" id="stock" name="stock" placeholder="库存" class="form-control" />
+                <input type="text" id="stock" name="stock" placeholder="库存" class="form-control" autocomplete="off"/>
             </div>
         </div>
     </form>
@@ -283,32 +284,6 @@ jQuery(function($) {
 
     });
     
-    /* $('#image').ace_file_input({
-        no_file: 'No File ...',
-        btn_choose: 'Choose',
-        btn_change: 'Change',
-        droppable: false,
-        onchange: null,
-        thumbnail: false //| true | large
-        //whitelist:'gif|png|jpg|jpeg'
-        //blacklist:'exe|php'
-        //onchange:''
-        //
-    }); */
-   /*  $("#add-form input").blur(function() {
-        if(addValidate()) {
-            $("#add-form .form-group").removeClass('has-error').addClass('has-success');
-        } else {
-            $("#add-form .form-group").removeClass('has-success').addClass('has-error');
-        }
-    });
-    ("#edit-form input").blur(function() {
-        if(editValidate()) {
-            $("#edit-form .form-group").removeClass('has-error').addClass('has-success');
-        } else {
-            $("#edit-form .form-group").removeClass('has-success').addClass('has-error');
-        }
-    }); */
     $("#orignalPrice, #promotePrice").blur(function(){
     	var pattern = /.*?\d{3}/;
     	var value = $(this).val();
@@ -341,6 +316,7 @@ jQuery(function($) {
                     '<td>'+ list[i].promotePrice + '</td>' +
                     '<td>'+ list[i].stock + '</td>' +
                     '<td>'+ new Date(list[i].createDate).format("yyyy-MM-dd hh :mm:ss") + '</td>' +
+                    '<td><a href="../admin/' + cid + '/products/' + list[i].id + '/propertyvalue"><i class="glyphicon glyphicon-th"></i></a></td>' +
                     '<td><div class="hidden-sm hidden-xs btn-group">' +
                     '<button class="btn btn-xs btn-info m-edit-btn"><i class="ace-icon fa fa-pencil bigger-120"></i></button>' +
                     '<button class="btn btn-xs btn-danger m-delete-btn"><i class="ace-icon fa fa-trash-o bigger-120"></i></button>' +

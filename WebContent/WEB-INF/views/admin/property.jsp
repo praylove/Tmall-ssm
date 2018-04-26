@@ -54,7 +54,7 @@
 			<div class="col-sm-9">
 				<span class="block input-icon input-icon-right"> <input
 					type="text" id="name" name="name" placeholder="属性名称"
-					class="form-control" /> <i class="ace-icon fa fa-times-circle"
+					class="form-control" autocomplete="off"/> <i class="ace-icon fa fa-times-circle"
 					style="display: none; color: red;"></i> <input type="hidden"
 					name="_method" value="post" />
 				</span>
@@ -80,7 +80,7 @@
 				属性名称： </label>
 			<div class="col-sm-9">
 				<span class="block input-icon input-icon-right"> <input
-					type="text" id="name" name="name" class="form-control" /> <i
+					type="text" id="name" name="name" class="form-control" autocomplete="off"/> <i
 					class="ace-icon fa fa-times-circle"
 					style="display: none; color: red;"></i> <input type="hidden"
 					name="_method" value="PUT" />

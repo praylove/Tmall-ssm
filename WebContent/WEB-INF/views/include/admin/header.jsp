@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:url var="resourcesPath" value="http://localhost:8080/tmall_ssm/resources/"></c:url>
-<c:url var="basePath" value="/"></c:url>
 <!DOCTYPE html>
 <html>
     <head>

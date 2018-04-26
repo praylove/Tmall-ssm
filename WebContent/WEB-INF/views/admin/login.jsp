@@ -145,10 +145,10 @@
                             required: true,
                             //rangelength: [4-16],
                             remote: {
-                                url: "../admin/nameValidate",
+                                url: "../nameValidate",
                                 type: "POST",
                                 data: {
-                                    adminname: function(){
+                                    name: function(){
                                         return $('#name').val();
                                     }
                                 }
@@ -157,10 +157,10 @@
                             required: true,
                             //rangelength: [8-16],
                             remote: {
-                                url: "../admin/passwordValidate",
+                                url: "../passwordValidate",
                                 type: "POST",
                                 data: {
-                                    adminname: function(){
+                                    name: function(){
                                         return $('#name').val();
                                     }, password: function(){
                                         return $('#password').val();
@@ -185,11 +185,14 @@
             	
             	$("#loginBtn").click(function(){
             		if ($('#loginForm').validate()){
-            			console.log("success");
             			$('#loginForm').submit();
-            			console.log("success2");
-            		} else{
-            			console.log("error");
+            		}
+            	});
+            	
+            	$("#loginForm input").keyup(function(e){
+            		var code = e.charCode || e.keyCode;
+            		if (code == 13 && $('#loginForm').validate()){
+                       $('#loginForm').submit();
             		}
             	});
             	

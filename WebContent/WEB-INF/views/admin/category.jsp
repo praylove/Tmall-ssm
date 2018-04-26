@@ -55,7 +55,7 @@
 			<div class="col-sm-9">
 				<span class="block input-icon input-icon-right"> <input
 					type="text" id="name" name="name" placeholder="分类名称"
-					class="form-control" /> <i class="ace-icon fa fa-times-circle"
+					class="form-control" autocomplete="off"/> <i class="ace-icon fa fa-times-circle"
 					style="display: none; color: red;"></i> <input type="hidden"
 					name="_method" value="post" />
 				</span>

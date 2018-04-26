@@ -10,6 +10,7 @@
         <result property="promotePrice" column="promotionPrice"/>
         <result property="stock" column="stock"/>
         <result property="createDate" column="createdate"/>
+        <result property="saleCount" column="sale"/>
         <association property="category" column="cid" resultMap="com.sherl.tmall.dao.CategoryMapper.categoryMapper">
         </association>
     </resultMap>
@@ -19,19 +20,29 @@
         ON c.cid = #{cid} AND p.cid = c.cid 
     </select>
     
+    <select id="listByOrder" resultMap="productMapper">
+        SELECT * FROM t_product p JOIN t_category c   
+        ON c.cid = #{cid} AND p.cid = c.cid ORDER BY ${col} ${seq}
+    </select>
+    
     <select id="getById" resultMap="productMapper">
         SELECT * FROM t_product p JOIN t_category c 
         ON p.pid = #{id} AND p.cid = c.cid
     </select>
     
     <insert id="add" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO t_product(pname, title, orignalprice, promotionPrice, stock, createdate, cid) 
-        VALUES (#{name}, #{subTitle}, #{orignalPrice}, #{promotePrice}, #{stock}, #{createDate}, #{category.id})
+        INSERT INTO t_product(pname, title, orignalprice, promotionPrice, stock, createdate, cid, sale) 
+        VALUES (#{name}, #{subTitle}, #{orignalPrice}, #{promotePrice}, #{stock}, #{createDate}, #{category.id}, #{saleCount})
     </insert>
     
     <update id="update">
         UPDATE t_product SET pname=#{name}, title=#{subTitle}, orignalprice=#{orignalPrice},
             promotionPrice=#{promotePrice}, stock=#{stock}
+         WHERE pid = #{id}
+    </update>
+    
+    <update id="updateSale">
+        UPDATE t_product SET sale = #{saleCount}
          WHERE pid = #{id}
     </update>
     

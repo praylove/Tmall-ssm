@@ -6,6 +6,7 @@
         <id property="id" column="uid"/>
         <result property="name" column="user_name"/>
         <result property="password" column="user_pwd"/>
+        <result property="role" column="role"/>
     </resultMap>
     
     <select id="list" resultMap="userMapper">
@@ -17,19 +18,19 @@
     </select>
     
     <select id="getByName" resultMap="userMapper">
-        SELECT * FROM t_user WHERE user_name LIKE '#{name}'
+        SELECT * FROM t_user WHERE user_name = '${_parameter}'
     </select>
     
     <select id="getByNameAndPassword" resultMap="userMapper">
-        SELECT * FROM t_user WHERE user_name LIKE '#{name}' AND user_pwd LIKE '#{password}'
+        SELECT * FROM t_user WHERE user_name LIKE '${name}' AND user_pwd LIKE '${password}'
     </select>
     
     <insert id="add" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO t_user(user_name, user_pwd) VALUES (#{name}, #{password})
+        INSERT INTO t_user(user_name, user_pwd, role) VALUES (#{name}, #{password}, #{role})
     </insert>
     
     <update id="update">
-        UPDATE t_user SET user_name = #{name} WHERE uid = #{id}
+        UPDATE t_user SET user_pwd = #{password} WHERE user_name = #{name}
     </update>
     
     <delete id="delete">

@@ -268,7 +268,7 @@ function getData() {
             );
         }
         
-        $('#details').append('<li><div><form id="m-detail" enctype="multipart/form-data" method="post"><input type="file" id="id-input-file-4" accept="image/jpeg" name="image" /></form></div></li>');
+        $('#details').append('<li><div><form id="m-detail" enctype="multipart/form-data" method="post"><input type="file" id="id-input-file-4" multiple="" accept="image/jpeg" name="image" /></form></div></li>');
         //multiple=""
         var $overflow = '';
         var colorbox_params = {

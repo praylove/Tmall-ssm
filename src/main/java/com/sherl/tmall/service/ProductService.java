@@ -37,6 +37,28 @@ public class ProductService {
 		return new PageInfo<>(ps);
 	}
 
+	public List<Product> listByOrder(int cid, String col, String seq) {
+		List<Product> ps = mapper.listByOrder(cid, col, seq);
+		for (Product p : ps) {
+			p.setFirstProductImage(imageService.getFirstProductImage(p.getId()));
+		}
+		return ps;
+	}
+
+	public List<Product> listByNew(int cid) {
+		return listByOrder(cid, ProductMapper.TIME, ProductMapper.DECREASE);
+	}
+
+	public List<Product> listBySale(int cid) {
+		return listByOrder(cid, ProductMapper.SALE, ProductMapper.DECREASE);
+	}
+
+	public List<Product> listByPrice(int cid, boolean isIncrease) {
+		if (isIncrease)
+			return listByOrder(cid, ProductMapper.PRICE, ProductMapper.INCREASE);
+		return listByOrder(cid, ProductMapper.PRICE, ProductMapper.DECREASE);
+	}
+
 	public Product get(int id) {
 		Product p = mapper.getById(id);
 		p.setFirstProductImage(imageService.getFirstProductImage(id));
@@ -48,6 +70,11 @@ public class ProductService {
 	@Transactional
 	public void add(Product p) {
 		mapper.add(p);
+	}
+
+	public void saleIncrese(Product p) {
+		p.setSaleCount(p.getSaleCount() + 1);
+		mapper.update(p);
 	}
 
 	@Transactional

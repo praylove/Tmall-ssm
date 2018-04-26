@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.sherl.tmall.util.Enum2Json;
+
 public class Order implements Serializable {
 
 	/**
@@ -170,6 +173,7 @@ public class Order implements Serializable {
 		this.reviewDate = reviewDate;
 	}
 
+	@JsonSerialize(using = Enum2Json.class)
 	public Status getStatus() {
 		return status;
 	}

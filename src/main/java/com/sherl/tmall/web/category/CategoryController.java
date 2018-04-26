@@ -1,6 +1,7 @@
 package com.sherl.tmall.web.category;
 
 import java.io.File;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -8,6 +9,7 @@ import javax.validation.Valid;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 import com.sherl.tmall.entity.Category;
 import com.sherl.tmall.service.CategoryService;
+import com.sherl.tmall.service.ProductService;
 import com.sherl.tmall.util.FileUploadHelper;
 
 @Controller
@@ -27,11 +30,10 @@ public class CategoryController {
 	private CategoryService categoryService;
 
 	@Autowired
+	private ProductService productService;
+
+	@Autowired
 	private Mapper beanMapper;
-	// @ModelAttribute
-	// public void setForm(Model model) {
-	// model.addAttribute("categoryForm", new CategoryForm());
-	// }
 
 	@RequestMapping(value = "/admin/category", method = RequestMethod.GET)
 	public String categoryIndex() {
@@ -47,20 +49,21 @@ public class CategoryController {
 		return pageInfo;
 	}
 
+	@RequestMapping(value = "/categorys", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Category> listWithProducts() {
+		List<Category> cs = categoryService.list();
+		for (Category c : cs) {
+			c.setProducts(productService.list(c.getId()));
+		}
+		return cs;
+	}
+
 	@RequestMapping(value = "/admin/categorys/{cid}", method = RequestMethod.GET)
 	@ResponseBody
 	public Category get(@PathVariable int cid) {
 		return categoryService.get(cid);
 	}
-
-	// @RequestMapping("/category/all")
-	// public String list(@RequestParam(required = false) Integer p, Model model) {
-	// if (p == null)
-	// p = 1;
-	// PageInfo<Category> pageInfo = categoryService.list(p, 5);
-	// model.addAttribute("pageInfo", pageInfo);
-	// return "admin/listCategory";
-	// }
 
 	@RequestMapping(value = "/admin/categorys", method = RequestMethod.POST)
 	@ResponseBody
@@ -77,29 +80,6 @@ public class CategoryController {
 		}
 	}
 
-	// @RequestMapping("/category/add")
-	// public String add(@Valid CategoryForm form, HttpServletRequest request) {
-	// Category c = new Category();
-	// c.setName(form.getName());
-	// categoryService.add(c);
-	//
-	// FileUploadHelper.uploadImage(request, "/resources/image/category", c.getId()
-	// + "", form.getImage());
-	//
-	// return "redirect:/admin/category/all";
-	// }
-
-	// @RequestMapping("{cid}/delete")
-	// public String delete(@PathVariable int cid, HttpServletRequest request) {
-	// categoryService.delete(cid);
-	// String floderPath =
-	// request.getServletContext().getRealPath("/resources/image/category");
-	// String filePath = floderPath + "/" + cid + ".jpg";
-	// File file = new File(filePath);
-	// file.delete();
-	// return "redirect:/admin/category/all";
-	// }
-
 	@RequestMapping(value = "/admin/categorys/{cid}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public void delete1(@PathVariable int cid, HttpServletRequest request) {
@@ -109,28 +89,6 @@ public class CategoryController {
 		File file = new File(filePath);
 		file.delete();
 	}
-
-	// @RequestMapping("/{cid}/edit")
-	// public String edit(@PathVariable int cid, Model model) {
-	// model.addAttribute("cid", cid);
-	// // Category c = categoryService.get(cid);
-	// // model.addAttribute("c", c);
-	// return "admin/editCategory";
-	// }
-
-	// @RequestMapping("/{cid}/update")
-	// public String update(@Valid CategoryForm form, @PathVariable int cid,
-	// HttpServletRequest request) {
-	// Category c = new Category();
-	// c.setId(cid);
-	// c.setName(form.getName());
-	// categoryService.update(c);
-	//
-	// FileUploadHelper.uploadImage(request, "/resources/image/category", c.getId()
-	// + "", form.getImage());
-	//
-	// return "redirect:/admin/category/all";
-	// }
 
 	@RequestMapping(value = "/admin/categorys/{cid}", method = RequestMethod.PUT)
 	@ResponseBody
@@ -145,6 +103,13 @@ public class CategoryController {
 		categoryService.update(c);
 
 		FileUploadHelper.uploadImage(request, "/resources/image/category", c.getId() + "", form.getImage());
+	}
+
+	@RequestMapping(value = "/category/{cid}")
+	public String categroy(@PathVariable int cid, Model model) {
+		Category c = categoryService.get(cid);
+		model.addAttribute("c", c);
+		return "fore/category";
 	}
 
 }

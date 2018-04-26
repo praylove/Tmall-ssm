@@ -21,6 +21,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.sherl.tmall.dao.CategoryMapper;
 import com.sherl.tmall.dao.ProductMapper;
 import com.sherl.tmall.entity.Product;
+import com.sherl.tmall.service.ProductService;
 import com.sherl.tmall.web.product.ProductForm;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,6 +34,9 @@ public class ProductTest {
 
 	@Autowired
 	private CategoryMapper categoryMapper;
+
+	@Autowired
+	private ProductService productService;
 
 	@Autowired
 	private WebApplicationContext webAppContext;
@@ -91,6 +95,33 @@ public class ProductTest {
 		} else {
 			System.out.println(product);
 		}
+	}
+
+	@Test
+	public void testGetRow() {
+		List<Product> ps = productService.list(3);
+		System.out.println("ps:" + ps);
+		List<List<Product>> psByRow = new ArrayList<>();
+		List<Product> row = new ArrayList<>();
+		int cols = (int) (Math.random() * 2) + 5;
+		System.out.println("cols: " + cols);
+		for (int i = 0; i < ps.size(); ++i) {
+			if ((i + 1) % cols == 0) {
+				psByRow.add(row);
+				cols = (int) (Math.random() * 2) + 5;
+				row = new ArrayList<>();
+			}
+			row.add(ps.get(i));
+		}
+		if (!row.isEmpty())
+			psByRow.add(row);
+		System.out.println(psByRow);
+	}
+
+	@Test
+	public void testGetByOrder() {
+		List<Product> ps = mapper.listByOrder(3, "createDate", "DESC");
+		System.out.println(ps);
 	}
 
 }

@@ -1,5 +1,9 @@
 package com.sherl.tmall.web.productImage;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,28 +48,35 @@ public class ProductImageController {
 		return imageService.getProductDetailsImage(pid);
 	}
 
-	@RequestMapping(value = "/admin/{cid}/products/{pid}/details", method = RequestMethod.POST)
-	@ResponseBody
-	public void addDetails(HttpServletRequest request, @RequestParam("image") MultipartFile image,
-			@PathVariable int pid) {
-		if (image == null) {
-			System.out.println("image is null!");
-			return;
-		}
-		ProductImage pi = new ProductImage();
-		pi.setProduct(productService.get(pid));
-		imageService.addDetailsImage(pi);
-		FileUploadHelper.uploadImage(request, "/resources/image/product/" + pid, pi.getId() + "", image);
-	}
+	// @RequestMapping(value = "/admin/{cid}/products/{pid}/details", method =
+	// RequestMethod.POST)
+	// @ResponseBody
+	// public void addDetails(HttpServletRequest request, @RequestParam("image")
+	// MultipartFile[] images,
+	// @PathVariable int pid) {
+	// for (MultipartFile image : images) {
+	// ProductImage pi = new ProductImage();
+	// pi.setProduct(productService.get(pid));
+	// imageService.addDetailsImage(pi);
+	// String path = "/resources/image/product/" + pid;
+	// if (!FileUploadHelper.uploadImage(request, path, pi.getId() + "", image)) {
+	// imageService.delete(pi.getId());
+	// }
+	// }
+	// }
 
-	@RequestMapping(value = "/admin/{cid}/products/{pid}/singles", method = RequestMethod.POST)
+	@RequestMapping(value = "/admin/{cid}/products/{pid}/{type}", method = RequestMethod.POST)
 	@ResponseBody
 	public void addSingles(HttpServletRequest request, @RequestParam("image") MultipartFile[] images,
-			@PathVariable int pid) {
+			@PathVariable int pid, @PathVariable String type) {
 		for (MultipartFile image : images) {
 			ProductImage pi = new ProductImage();
 			pi.setProduct(productService.get(pid));
-			imageService.addSingleImage(pi);
+			if (type.equals("singles")) {
+				imageService.addSingleImage(pi);
+			} else {
+				imageService.addDetailsImage(pi);
+			}
 			String path = "/resources/image/product/" + pid;
 			if (!FileUploadHelper.uploadImage(request, path, pi.getId() + "", image)) {
 				imageService.delete(pi.getId());
@@ -75,7 +86,16 @@ public class ProductImageController {
 
 	@RequestMapping(value = "/admin/{cid}/products/{pid}/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public void delete(@PathVariable int id) {
+	public void delete(@PathVariable int pid, @PathVariable int id) {
+		String dir = "/resources/image/product/" + pid;
+		try {
+			Files.delete(Paths.get(dir, id + ".jpg"));
+		} catch (NoSuchFileException e1) {
+			imageService.delete(id);
+			return;
+		} catch (IOException e) {
+			return;
+		}
 		imageService.delete(id);
 	}
 }

@@ -13,7 +13,6 @@ public class Category implements Serializable {
 	private int id;
 	private String name;
 	private List<Product> products;
-	private List<List<Product>> productsByRow;
 
 	@Override
 	public String toString() {
@@ -42,14 +41,6 @@ public class Category implements Serializable {
 
 	public void setProducts(List<Product> products) {
 		this.products = products;
-	}
-
-	public List<List<Product>> getProductsByRow() {
-		return productsByRow;
-	}
-
-	public void setProductsByRow(List<List<Product>> productsByRow) {
-		this.productsByRow = productsByRow;
 	}
 
 }

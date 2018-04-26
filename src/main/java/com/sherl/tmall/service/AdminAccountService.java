@@ -10,6 +10,7 @@ import com.sherl.tmall.dao.AdminAccountMapper;
 import com.sherl.tmall.entity.AdminAccount;
 import com.sherl.tmall.util.EncoderUtil;
 
+@Deprecated
 @Service
 public class AdminAccountService {
 

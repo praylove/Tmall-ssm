@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.sherl.tmall.entity.AdminAccount;
 import com.sherl.tmall.entity.AdminDetails;
 
+@Deprecated
 @Service("adminDetailsService")
 public class AdminDetailsService implements UserDetailsService {
 

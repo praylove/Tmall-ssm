@@ -2,6 +2,7 @@ package com.sherl.tmall.entity;
 
 import java.io.Serializable;
 
+@Deprecated
 public class AdminAccount implements Serializable {
 
 	/**

@@ -30,6 +30,10 @@ public class OrderService {
 		return mapper.list();
 	}
 
+	public List<Order> list(int uid) {
+		return mapper.listByUid(uid);
+	}
+
 	public PageInfo<Order> list(int currentPage, int pageSize) {
 		PageHelper.startPage(currentPage, pageSize);
 		List<Order> os = mapper.list();
@@ -46,59 +50,54 @@ public class OrderService {
 	 */
 	@Transactional
 	public void create(Order o) {
-		o.setOrderCode(o.codeGenerator());
 		o.setStatus(Status.UNPAY);
 		o.setCreateDate(new Date());
+		o.setOrderCode(o.codeGenerator());
 		mapper.add(o);
 	}
 
-	@Transactional
 	public void cancel(int id) {
 		Order o = this.get(id);
 		if (!o.getStatus().equals(Status.UNPAY))
 			return;
 		o.setStatus(Status.CANCELLED);
-		mapper.updateStatus(o);
+		updateStatus(o);
 	}
 
-	@Transactional
 	public void pay(int id) {
 		Order o = this.get(id);
 		if (!o.getStatus().equals(Status.UNPAY))
 			return;
 		o.setStatus(Status.UNDELIVER);
 		o.setPayDate(new Date());
-		mapper.updateStatus(o);
+		updateStatus(o);
 	}
 
-	@Transactional
 	public void delivery(int id) {
 		Order o = this.get(id);
 		if (!o.getStatus().equals(Status.UNDELIVER))
 			return;
 		o.setStatus(Status.UNCONFIRM);
 		o.setDeliveryDate(new Date());
-		mapper.updateStatus(o);
+		updateStatus(o);
 	}
 
-	@Transactional
 	public void confirm(int id) {
 		Order o = this.get(id);
 		if (!o.getStatus().equals(Status.UNCONFIRM))
 			return;
 		o.setStatus(Status.UNREVIEW);
 		o.setConfirmDate(new Date());
-		mapper.updateStatus(o);
+		updateStatus(o);
 	}
 
-	@Transactional
 	public void review(int id) {
 		Order o = this.get(id);
 		if (!o.getStatus().equals(Status.UNREVIEW))
 			return;
 		o.setStatus(Status.SUCCESS);
 		o.setReviewDate(new Date());
-		mapper.updateStatus(o);
+		updateStatus(o);
 	}
 
 	@Transactional

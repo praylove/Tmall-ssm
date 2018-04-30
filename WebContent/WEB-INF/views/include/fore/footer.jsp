@@ -96,6 +96,7 @@
 		<img class="u-foot2-img" src="image/site/copyRight2.jpg" alt="co" />
 	</div>
 </div>
+<script src="js/jquery/accounting.min.js"></script>
 <script src="js/fore/fore.js"></script>
 <script type="text/javascript">
 jQuery(function($){

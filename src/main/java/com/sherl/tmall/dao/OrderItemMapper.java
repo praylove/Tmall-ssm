@@ -14,7 +14,9 @@ public interface OrderItemMapper {
 
 	public OrderItem getById(int id);
 
-	public OrderItem getByProductAndUser(@Param("uid") int uid, @Param("uid") int pid);
+	public OrderItem getByProductAndUser(@Param("uid") int uid, @Param("pid") int pid);
+
+	public OrderItem getCarById(int id);
 
 	public int carCount(int uid);
 
@@ -26,4 +28,5 @@ public interface OrderItemMapper {
 
 	public void delete(int id);
 
+	public void deleteByOid(int oid);
 }

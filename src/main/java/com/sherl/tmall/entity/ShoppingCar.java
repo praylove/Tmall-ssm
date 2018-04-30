@@ -1,5 +1,6 @@
 package com.sherl.tmall.entity;
 
+@Deprecated
 public class ShoppingCar {
 
 	private int id;

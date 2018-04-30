@@ -9,9 +9,9 @@
 			     
 			</div>
 			<span class="meau">
-				<a class="link" href="../orders">我的订单</a>
+				<a class="link" href="../s-order/list">我的订单</a>
 				<span class="glyphicon glyphicon-shopping-cart s-redColor"></span>
-			<a class="link" href="../shoppingCar">
+			<a class="link" href="../s-shoppingcar">
 				购物车
 				<span id="carNumber" class="s-redColor"></span>
 				件

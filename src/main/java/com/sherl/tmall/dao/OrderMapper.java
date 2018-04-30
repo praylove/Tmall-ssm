@@ -13,6 +13,8 @@ public interface OrderMapper {
 
 	public List<Order> list();
 
+	public List<Order> listByUid(int uid);
+
 	public void add(Order o);
 
 	public void update(Order o);

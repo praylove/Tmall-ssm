@@ -1,5 +1,7 @@
 package com.sherl.tmall.web.shoppingcar;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +10,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sherl.tmall.entity.OrderItem;
 import com.sherl.tmall.entity.User;
 import com.sherl.tmall.entity.UserDetailsImpl;
 import com.sherl.tmall.service.ProductService;
@@ -61,9 +66,31 @@ public class ShoppingCarController {
 		return "error";
 	}
 
-	// @RequestMapping(value = "", method = RequestMethod.POST)
-	// public String list() {
-	//
-	// }
+	@RequestMapping(value = "/s-shoppingcars", method = RequestMethod.GET)
+	@ResponseBody
+	public List<OrderItem> list() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Object o = authentication.getPrincipal();
+		if (o instanceof UserDetailsImpl) {
+			User user = ((UserDetailsImpl) o).getUser();
+			return carService.list(user.getId());
+		} else {
+			return null;
+		}
+	}
+
+	@RequestMapping(value = "/s-shoppingcars/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public void update(@PathVariable int id, @RequestParam int number) {
+		System.out.println("update");
+		carService.updateItem(id, number);
+	}
+
+	@RequestMapping(value = "/s-shoppingcars/{id}/delete", method = RequestMethod.POST)
+	@ResponseBody
+	public void delete(@PathVariable int id) {
+		System.out.println("delete");
+		carService.delete(id);
+	}
 
 }

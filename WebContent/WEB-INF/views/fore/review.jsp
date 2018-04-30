@@ -27,7 +27,7 @@
 </c:forEach>
 <div class="g-mid" style="background-color: #E3E3E3; padding: 20px 50px;">
 	其他买家，需要你的建议哦！
-	<form action="forereview?oid=${o.id}" method="post" enctype="multipart/form-data">
+	<form action="forereview?oid=${o.id}" method="post">
 		<textarea name="review" rows="6" cols="60" class="text"></textarea>
 		<button type="submit" class="btn btn-info">发表评论</button>
 	</form>

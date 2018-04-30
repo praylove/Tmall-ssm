@@ -212,14 +212,7 @@
 		})
 		$("#buyButton").click(function() {
 			if (t_isAuthenticated){
-                $.post('../shoppingcars', {
-                    pid: ${p.id},
-                    number: $("#selectedCount").val()
-                }, function(data) {
-                    if (data === "success"){
-                        getNavInfo();
-                    }
-                })
+				window.location.href = "../s-buy?pid=${p.id}&number=" + $("#selectedCount").val();
             } else{
                  $("#myModal").modal("show");
             }

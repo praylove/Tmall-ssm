@@ -15,7 +15,7 @@
 
 <div class="g-mid">
 	<div class="m-confirm-process">
-		<img src="/tmall/image/site/comformPayFlow.png" />
+		<img src="image/site/comformPayFlow.png" />
 		<br />
 		<span><fmt:formatDate type="both" pattern="yyyy-MM-dd HH:mm:ss" value="${o.createDate}" /></span>
 		<span><fmt:formatDate type="both" pattern="yyyy-MM-dd HH:mm:ss" value="${o.payDate}" /></span>
@@ -40,14 +40,14 @@
 				<c:forEach items="${o.orderItems}" var="oi">
 				<tr>
 					<td height="120px">
-						<a href="foreproduct?pid=${oi.product.id}">
-							<img src="/tmall/image/product/${oi.product.id}/${oi.product.firstProductImage.id}.jpg" style="width: 80px; height: 80px; margin-right: 20px; float: left;" />
+						<a href="../product/${oi.product.id}">
+							<img src="image/product/${oi.product.id}/${oi.product.firstProductImage.id}.jpg" style="width: 80px; height: 80px; margin-right: 20px; float: left;" />
 						</a>
-						<a href="foreproduct?pid=${oi.product.id}" style="display: block; margin: 20px; text-align: left;">${oi.product.name}</a>
+						<a href="../product/${oi.product.id}" style="display: block; margin: 20px; text-align: left;">${oi.product.name}</a>
 					</td>
 					<td>￥<fmt:formatNumber value="${oi.product.promotePrice}" pattern="#,#00.00#" /></td>
 					<td>${oi.number}</td>
-					<td style="font-size: 18px;"><strong>￥<fmt:formatNumber value="${oi.product.promotePrice * oi.number}" pattern="#,#00.00#" /></strong></td>
+					<td style="font-size: 18px;"><strong>￥<fmt:formatNumber value="${oi.prices}" pattern="#,#00.00#" /></strong></td>
 					<td>快递 ： 0.00</td>
 				</tr>
 				</c:forEach>
@@ -72,7 +72,7 @@
 	<div class="m-confirm-btn">
 		<div class="s-redColor" style="font-size: 18px;">
 			<strong>请收到货后，再确认收货！否则您可能钱货两空！</strong>
-			<button type="button" class="btn btn-primary s-btn"><a href="foreconfirm?oid=${o.id}" style="color: white;">确认收货</a></button>
+			<button type="button" class="btn btn-primary s-btn"><a href="../s-order/${o.id}/confirm-success" style="color: white;">确认收货</a></button>
 		</div>
 	</div>
 </div>

@@ -16,24 +16,28 @@
 <div class="g-mid">
 	<ul class="m-order-title">
 		<li class="selected">
-			<a href="#all">所有订单</a>
+			<a href="javascript:;" rel="all">所有订单</a>
 		</li>
 		<li class="divider">|</li>
 		<li>
-			<a href="#unpay">待付款</a>
+			<a href="javascript:;" rel="unpay">待付款</a>
 		</li>
 		<li class="divider">|</li>
 		<li>
-			<a href="#unship">待发货</a>
+			<a href="javascript:;" rel="unship">待发货</a>
 		</li>
 		<li class="divider">|</li>
 		<li>
-			<a href="#unreceive">待收货</a>
+			<a href="javascript:;" rel="unconfirm">待收货</a>
 		</li>
 		<li class="divider">|</li>
 		<li>
-			<a href="#unreview">待评价</a>
+			<a href="javascript:;" rel="unreview">待评价</a>
 		</li>
+		<li class="divider">|</li>
+        <li>
+            <a href="javascript:;" rel="success">已完成</a>
+        </li>
 	</ul>
 	<div class="m-order-head">
 		<span style="width: 60%;">宝贝</span>
@@ -42,79 +46,10 @@
 		<span style="width: 12%;">实付款</span>
 		<span style="width: 10%;">交易操作</span>
 	</div>
-	<c:forEach items="${theos}" var="o">
-		<c:choose>
-			<c:when test="${o.status == '待发货'}">
-				<div class="m-order order-unship">
-			</c:when>
-			<c:when test="${o.status == '待付款'}">
-				<div class="m-order order-unpay">
-			</c:when>
-			<c:when test="${o.status == '待收货'}">
-				<div class="m-order order-unrecive">
-			</c:when>
-			<c:otherwise>
-				<div class="m-order order-unreview">
-			</c:otherwise>
-		</c:choose>
-		<div class="u-orderId">
-			<div style="width: 60%;"><strong><fmt:formatDate type="both" pattern="yyyy-MM-dd HH:mm:ss" value="${o.createDate}" /></strong> 订单号: ${o.orderCode}</div>
-			<div><img src="/tmall/image/site/tmallbuy.png" />天猫商场</div>
-			<a href="" rel="${o.id}">
-				<div class="delete glyphicon glyphicon-trash"></div>
-			</a>
-		</div>
-		<div class="u-orderName">
-			<table border="1" cellpadding="10px">
-				<c:forEach items="${o.orderItems}" var="oi" varStatus="status">
-					<tr>
-						<td style="width: 10%;"><img class="item-img" src="/tmall/image/product/${oi.product.id}/${oi.product.firstProductImage.id}.jpg" /></td>
-						<td class="name" style="width: 50%;">
-							<a href="foreproduct?pid=${oi.product.id}">${oi.product.name}</a>
-							<div>
-								<img src="/tmall/image/site/creditcard.png" />
-								<img src="/tmall/image/site/7day.png" />
-								<img src="/tmall/image/site/promise.png" />
-							</div>
-						</td>
-						<td style="width: 10%;">
-							<span style="color: #8C8C8C; text-decoration: line-through;">
-							￥<fmt:formatNumber value="${oi.product.orignalPrice}" pattern="#,#00.00#" />
-						</span> <br />
-							￥<fmt:formatNumber value="${oi.product.promotePrice}" pattern="#,#00.00#" />
-						</td>
-						<td style="width: 8%;border-left: 1px solid #E6E6E6;">${oi.number}</td>
-						<td style="width: 12%;border-left: 1px solid #E6E6E6;">
-							<strong>￥<fmt:formatNumber value="${oi.product.promotePrice * oi.number}" pattern="#,#00.00#" /></strong><br />
-							<span style="font-size: 12px;">(含运费:￥0.00)</span>
-						</td>
-						<td style="width: 10%;border-left: 1px solid #E6E6E6;">
-							<c:if test="${status.index == 0}">
-								<c:choose>
-							<c:when test="${o.status == '待发货'}">
-								<span>待发货</span>
-							</c:when>
-							<c:when test="${o.status == '待付款'}">
-								<button class="btn btn-info payment"><a href="foretopay?oid=${o.id}" style="color: white;">付款</a></button>
-							</c:when>
-							<c:when test="${o.status == '待收货'}">
-								<button class="btn btn-info payment"><a href="foretoConfirm?oid=${o.id}" style="color: white;">确认收货</a></button>
-							</c:when>
-							<c:when test="${o.status == '待评价'}">
-								<button class="btn btn-default review-btn"><a href="foretoReview?oid=${o.id}" style="color: black;">评价</a></button>
-							</c:when>
-							<c:otherwise>
-								<span>已完成</span>
-							</c:otherwise>
-							</c:choose>
-							</c:if>
-						</td>
-					</tr>
-				</c:forEach>
-			</table>
-		</div>
-		</div>
-	</c:forEach>
+	
+	<div id="order-details">
+	
+	</div>
 </div>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -138,51 +73,135 @@
 </div>
 	<script type="text/javascript">
 		$(document).ready(function() {
+			getInfo();
+			
 			$(".m-order-title li").click(function() {
 				$(".m-order-title li").removeClass("selected");
 				$(this).addClass("selected");
-				var s = $(this).find("a").prop("href");
-				s = s.substring(s.indexOf("#"));
+				var s = $(this).find("a").prop("rel");
 				switch(s) {
-					case "#unpay":
+					case "unpay":
 						$(".m-order").hide();
 						$(".order-unpay").show();
 						break;
-					case "#unship":
+					case "unship":
 						$(".m-order").hide();
 						$(".order-unship").show();
 						break;
-					case "#unreceive":
+					case "unconfirm":
 						$(".m-order").hide();
 						$(".order-unrecive").show();
 						break;
-					case "#unreview":
+					case "unreview":
 						$(".m-order").hide();
 						$(".order-unreview").show();
 						break;
+					case "success":
+                        $(".m-order").hide();
+                        $(".order-success").show();
+                        break;
 					default:
 						$(".m-order").show();
 				}
 			})
 			$("#deleteConfirm").click(function(){
-				var value = $("#oid").val();
-				$.post("AjaxServlet",{
-						method: "deleteOrder",
-						oid: value
-					}, function(){
-						window.location.reload();
-					}
-				)
+				$.ajax({
+					url: $("#deleteConfirm").attr('href'),
+					type: "DELETE",
+					success: function(){
+	                    getInfo();
+	                }
+				});
+				$("#myModal").modal('hide');
 				return false;
 			})
-			$(".delete").click(function(){
-				var oidValue = $(this).parent().prop("rel");
-				$("#oid").val(oidValue);
-				$("#myModal").modal("show");
-				return false;
-			})
+			
 		})
 	</script>
-
+    <script>
+    function getInfo(){
+    	$.get("../s-orders", function(orders){
+            var html = "";
+            for (var o of orders){
+                var innerHtml = "";
+                console.log(o.status);
+                if (o.status === '待发货'){
+                    innerHtml += '<div class="m-order order-unship">';
+                } else if (o.status == '待付款'){
+                    innerHtml += '<div class="m-order order-unpay">';
+                } else if (o.status == '待收货'){
+                    innerHtml += '<div class="m-order order-unrecive">';
+                } else if (o.status == '待评价'){
+                    innerHtml += '<div class="m-order order-unreview">';
+                } else {
+                    innerHtml += '<div class="m-order order-success">';
+                }
+                
+                innerHtml += '<div class="u-orderId">'+
+                    '<div style="width: 60%;"><strong>' + timeFormat(o.createDate) + '</strong> 订单号: ' + o.orderCode + '</div>'+
+                    '<div><img src="image/site/tmallbuy.png" />天猫商场</div>'+
+                    '<a href="javascript:;" rel="' + o.id +'">'+
+                    ' <i class="delete glyphicon glyphicon-trash"></i>'+
+                    ' </a>'+
+                    '</div>';
+                    
+                innerHtml += '<div class="u-orderName"><table border="1" cellpadding="10px">';
+                
+                var i = 0;
+                for (var oi of o.orderItems){
+                    i++;
+                    innerHtml += '<tr>' +
+                    '<td style="width: 10%;"><img class="item-img" src="image/product/' + oi.product.id + '/' + oi.product.firstProductImage.id + '.jpg" /></td>' +
+                    '<td class="name" style="width: 50%;">' +
+                        '<a href="../product/' + oi.product.id + '">' + oi.product.name + '</a>' +
+                        '<div>' +
+                            '<img src="image/site/creditcard.png" />' +
+                            '<img src="image/site/7day.png" />' +
+                            '<img src="image/site/promise.png" />' +
+                        '</div>' +
+                    '</td>' +
+                    '<td style="width: 10%;">' +
+                        '<span style="color: #8C8C8C; text-decoration: line-through;">' + accounting.formatMoney(oi.product.orignalPrice, "￥", 2, ",", ".") +
+                    '</span> <br />' + accounting.formatMoney(oi.product.promotePrice, "￥", 2, ",", ".") +
+                    '</td>' +
+                    '<td style="width: 8%;border-left: 1px solid #E6E6E6;">' + oi.number + '</td>' +
+                    '<td style="width: 12%;border-left: 1px solid #E6E6E6;">' +
+                        '<strong>' + accounting.formatMoney(oi.prices, "￥", 2, ",", ".") + '</strong><br />' +
+                        '<span style="font-size: 12px;">(含运费:￥0.00)</span>' +
+                    '</td>' +
+                    '<td style="width: 10%;border-left: 1px solid #E6E6E6;">';
+                    
+                    if (i === 1){
+                        if (o.status === '待发货'){
+                            innerHtml += '<span>待发货</span>';
+                        } else if (o.status === '待付款'){
+                            innerHtml += '<button class="btn btn-info btn-payment"><a href="../s-order/' + o.id + '/pay" style="color: white;">付款</a></button>';
+                        } else if (o.status === '待收货'){
+                            innerHtml += '<button class="btn btn-info btn-confirm"><a href="../s-order/' + o.id + '/confirm" style="color: white;">确认收货</a></button>';
+                        } else if (o.status === '待评价'){
+                            innerHtml += '<button class="btn btn-default btn-review"><a href="../s-order/' + o.id + '/review" style="color: black;">评价</a></button>';
+                        } else {
+                            innerHtml += '<span>已完成</span>';
+                        }
+                    }
+                    innerHtml += '</td></tr>';
+                }
+                innerHtml += '</table></div></div>';
+                
+                html += innerHtml;
+            }
+            
+            $('#order-details').html(html);
+            
+            $(".delete").click(function(){
+                var oid = $(this).closest('a').prop("rel");
+                $("#deleteConfirm").attr('href', '../s-order/' + oid +'/delete')              
+                $("#myModal").modal("show");
+                return false;
+            })
+            
+        });
+    }
+    </script>
 	<%@ include file="../include/fore/separator.jsp" %>
 	<%@ include file="../include/fore/footer.jsp" %>

@@ -49,6 +49,7 @@ public class OrderItem implements Serializable {
 	}
 
 	public float getPrices() {
+		prices = number * product.getPromotePrice();
 		return prices;
 	}
 
@@ -58,8 +59,8 @@ public class OrderItem implements Serializable {
 
 	@Override
 	public String toString() {
-		return "OrderItem [id=" + id + ", product=" + product.getId() + ", order=" + order.getId() + ", number="
-				+ number + ", prices=" + prices + "]";
+		return "OrderItem [id=" + id + ", product=" + product.getId() + ", number=" + number + ", prices=" + getPrices()
+				+ "]";
 	}
 
 	public User getUser() {

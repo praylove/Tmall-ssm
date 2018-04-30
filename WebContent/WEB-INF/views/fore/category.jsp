@@ -67,7 +67,7 @@
     			}
     			innerhtml += '<td><div class="items"><a href="../product/' + ps[i].id + '"><img src="image/product/' + ps[i].id + '/' + ps[i].firstProductImage.id + '.jpg" alt="商品" width="177px" height="180px" /></a>' +
                     '<br /><div><a class="name" href="../product' + ps[i].id + '">' + ps[i].name.substring(0, 30) + '</a>' +
-                    '<div class="s-redColor price">¥ ' + ps[i].promotePrice + '</div></div></div></td>';
+                    '<div class="s-redColor price">¥ ' + accounting.formatMoney(ps[i].promotePrice, "￥", 2, ".", ",") + '</div></div></div></td>';
                 if (i % 5 === 4){
                 	innerhtml += '</tr>';
                 }

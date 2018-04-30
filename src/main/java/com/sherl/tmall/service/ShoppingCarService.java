@@ -1,5 +1,6 @@
 package com.sherl.tmall.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sherl.tmall.dao.OrderItemMapper;
 import com.sherl.tmall.entity.Order;
 import com.sherl.tmall.entity.OrderItem;
+import com.sherl.tmall.entity.Product;
 
 @Service
 public class ShoppingCarService {
@@ -20,10 +22,33 @@ public class ShoppingCarService {
 	private UserService userSerivce;
 
 	@Autowired
+	private OrderItemService itemSerive;
+
+	@Autowired
+	private ProductImageService imageService;
+
+	@Autowired
 	private ProductService productService;
 
 	public List<OrderItem> list(int uid) {
-		return mapper.carList(uid);
+		List<OrderItem> ois = mapper.carList(uid);
+		for (OrderItem oi : ois) {
+			Product p = oi.getProduct();
+			p.setFirstProductImage(imageService.getFirstProductImage(p.getId()));
+		}
+		return ois;
+	}
+
+	public List<OrderItem> listByArray(Integer[] ids) {
+		List<OrderItem> ois = new ArrayList<>();
+		for (Integer id : ids) {
+			if (id == null)
+				continue;
+			OrderItem oi = get(id);
+			if (oi != null)
+				ois.add(oi);
+		}
+		return ois;
 	}
 
 	public int count(int uid) {
@@ -32,6 +57,13 @@ public class ShoppingCarService {
 
 	public OrderItem get(int uid, int pid) {
 		return mapper.getByProductAndUser(uid, pid);
+	}
+
+	public OrderItem get(int id) {
+		OrderItem oi = mapper.getCarById(id);
+		Product p = oi.getProduct();
+		p.setFirstProductImage(imageService.getFirstProductImage(p.getId()));
+		return oi;
 	}
 
 	public void carAddOperation(int uid, int pid, int number) {
@@ -50,6 +82,14 @@ public class ShoppingCarService {
 		}
 	}
 
+	public void updateItem(int id, int number) {
+		OrderItem oi = get(id);
+		if (oi == null)
+			return;
+		oi.setNumber(number);
+		updateItem(oi);
+	}
+
 	@Transactional
 	public void addItem(OrderItem oi) {
 		Order o = new Order();
@@ -59,8 +99,11 @@ public class ShoppingCarService {
 	}
 
 	@Transactional
-	public void updateItem(OrderItem o) {
-		mapper.update(o);
+	public void updateItem(OrderItem oi) {
+		Order o = new Order();
+		o.setId(0);
+		oi.setOrder(o);
+		mapper.update(oi);
 	}
 
 	@Transactional
@@ -70,5 +113,16 @@ public class ShoppingCarService {
 			return;
 		oi.setNumber(oi.getNumber() + 1);
 		updateItem(oi);
+	}
+
+	public void delete(int id) {
+		itemSerive.delete(id);
+	}
+
+	public void delete(Integer[] ids) {
+		for (Integer id : ids) {
+			if (id != null)
+				delete(id);
+		}
 	}
 }

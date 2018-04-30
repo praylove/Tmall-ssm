@@ -21,7 +21,7 @@
 	display: inline-block;
 	width: 25px;
 	height: 25px;
-	background-image: url(/tmall/image/site/wangwang.gif);
+	background-image: url(../../image/site/wangwang.gif);
 	background-repeat: no-repeat;
 	background-position: -80px 0;
 }
@@ -29,7 +29,7 @@
 	display: inline-block;
 	width: 67px;
 	height: 22px;
-	background-image: url(/tmall/image/site/wangwang.gif);
+	background-image: url(../../image/site/wangwang.gif);
 }
 
 /* ========== */
@@ -944,8 +944,8 @@
 	margin-left: -450px;
 	float: right;
 }
-.select,.selectAll {}
-.unselect,.unselectAll {display: none;}
+.select,.selectAll {display: none;}
+.unselect,.unselectAll {}
 
 .m-shopping-item{
 	width: 100%;
